@@ -3,5 +3,5 @@ project(times)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES main.c message.h)
+set(SOURCE_FILES main.c entity.h)
 add_executable(times ${SOURCE_FILES})

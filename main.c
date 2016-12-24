@@ -8,7 +8,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <arpa/inet.h>
-#include "message.h"
+#include "entity.h"
 void out(struct message msg){
 
 }
@@ -30,8 +30,9 @@ struct message setMessage(struct message msg){
 }
 
 
-int getSeverSocket(char *addr,char *port,int lisnum){
+int getSeverSocket(char *addr,char *port){
     int sockfd,fd;
+    int lisnum=1;//for listening client extend
     struct sockaddr_in my_addr,their_addr;
     socklen_t socklen;
 
@@ -63,23 +64,57 @@ int getSeverSocket(char *addr,char *port,int lisnum){
     return fd;
 }
 
+int getClientSocket(char *addr,char *port){
+
+}
+
+int (* getSocket)(char *addr,char *port);
+
+int hostDecide(){}
 
 int main(int argc,char *argv[]){
-    int lisnum=1;//for listening client extend
-    if (argc < 2){
-        printf("Please add IP argument: IP-address Port Mode(host/slave)\n");
+    if(!strcmp(argv[1],"--help")){
+        printf("help\n");
+    }
+    else if (argc < 2){
+        printf("Please add IP argument:IP-address port socket-mode(server/client)\n");
         exit(1);
     }
 
-    extern int fd=getSeverSocket(argv[1],argv[2],lisnum);
-    if (fd!=-1){
-        printf("Connect success.\n");
+    if (!strcmp(argv[3],"server")){
+        getSocket=&getSeverSocket;
+    }else if(!strcmp(argv[3],"client")){
+        getSocket=&getClientSocket;
     }
-    while(1){
-        if (strcmp(argv[3],"host")){
-            
+
+    struct device dev;
+    char *c="y";
+    while(!strcasecmp(c,"y")){
+
+        dev.fd=(*getSocket)(argv[1],argv[2]);
+        if (dev.fd!=-1){
+            printf("Connect success.\n");
+            break;
+        } else{
+            printf("Connect fail.\n");
+            printf("Try again?(y) Quit?(n):");
+            scanf("%s",c);
         }
-        receive(fd);
+    }
+
+    //printf("Please choose the mode(host[0]/slave[1]):");
+    //scanf("%d",c);
+
+    while(1){
+        if (dev.fd==hostDecide()){
+            switch(dev.msgState){
+                case sync:
+                    if (dev.state==wait_send){
+                        out(sync);///////////////////can it just one sigle line to operate, like function array
+                    }
+            }
+        }
+        receive(dev.fd);/////////////////?
         break;
     }
 
