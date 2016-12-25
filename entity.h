@@ -8,14 +8,14 @@
 #define SLAVE 1
 
 struct message{
-    unsigned char messageType;
+    enum messageState messageType;
     unsigned short messageLength;
     unsigned short sequenceID;//报文序列号
     signed char logMessageInterval;//报文发送间隔
 };
 
 enum deviceCharacter{
-    master,
+    host,
     slave,
 };
 
@@ -29,6 +29,7 @@ enum messageState{
 enum deviceState{
     wait_send,
     wait_recive,
+    done,
 };
 
 struct device{
@@ -36,6 +37,7 @@ struct device{
     enum deviceCharacter character;
     enum deviceState state;
     enum messageState msgState;
+    struct message *msg[4];
 };
 
 #endif //TIMES_ENTITY_H
