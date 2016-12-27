@@ -12,8 +12,13 @@ struct timeStamp{
     struct timezone tz;
 };
 
+struct msg_buf{
+    long type;
+    struct delivery *msg;
+};
+
 struct message{
-    enum messageState messageType;
+    int messageType;
     unsigned short messageLength;
     unsigned short sequenceID;//报文序列号
     signed char logMessageInterval;//报文发送间隔
@@ -37,6 +42,12 @@ enum deviceState{
     wait_recive,
     wait_send,
     done,
+};
+
+struct delivery{
+    char *op;
+    struct timeval offset;
+    struct timeval delay;
 };
 
 struct device{
