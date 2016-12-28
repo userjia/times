@@ -20,8 +20,11 @@
 #define INPUTBUF 50
 extern struct device dev;
 extern char buf[sizeof(struct message)];
-
 extern void *circleSync();
 
+extern void listenCommad(char *a);
+extern void sendCommand(char *a);
+
+extern void getSocket(char *input_addr,char *port,char *socketType);
 
 #endif //TIMES_MAIN_H_H

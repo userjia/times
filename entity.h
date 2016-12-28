@@ -26,6 +26,10 @@ struct message{
     struct timeStamp rtime;
 };
 
+struct connet{
+    char *addr;
+};
+
 enum deviceCharacter{
     host,
     slave,

@@ -3,107 +3,7 @@
 //
 #include "main.h"
 
-int getMsgid(char *a){
-    key_t key;
-    int msgid;
 
-    if((key=ftok(a,100))==-1){//A??
-        perror("ftok");
-        //
-    }
-    if((msgid=msgget(key,0600|IPC_CREAT))==-1){//0600?
-        perror("msgget");
-    }
-
-    return msgid;
-
-}
-
-void msgqSend(int msgid,struct delivery deli){
-
-    struct msginfo buf;
-    struct msg_buf msg_send;
-
-    memset(&msg_send,'\0',sizeof(struct msg_buf));
-
-    msg_send.type=1;
-
-    memcpy(msg_send.msg,&deli,sizeof(deli));
-
-    int val=msgsnd(msgid,(void *)&msg_send,sizeof(msg_send.msg),0);//??
-
-}
-
-struct msg_buf *msgqRecv(int msgid){
-
-    struct msg_buf *msg_recv;
-    msg_recv=malloc(sizeof(struct msg_buf));
-    memset(msg_recv,'\0',sizeof(struct msg_buf));
-
-    msg_recv->type=1;
-    ssize_t rcv=msgrcv(msgid,(void *)&msg_recv,sizeof(msg_recv->msg),msg_recv->type,0);
-
-    msgctl(msgid,IPC_RMID,0);
-
-    return msg_recv;
-}
-
-
-
-
-
-
-void listenCommand(char *a){
-    struct msg_buf *buf;
-    int msgid=getMsgid(a);
-    while(1){
-        buf=msgqRecv(msgid);
-        if (!strcmp(buf->msg->op,"get different time")){
-            struct delivery deli={"",dev.offset,dev.delay};
-            msgqSend(msgid,deli);
-        }
-    }
-}
-
-void sendCommand(char *a){
-    struct msg_buf *buf;
-    char cmd[INPUTBUF];
-    int msgid=getMsgid(a);
-    while(strcasecmp(cmd,"quit this")){
-        fgets(cmd,sizeof(cmd),stdin);
-        struct delivery deli={cmd,dev.offset,dev.delay};
-        msgqSend(msgid,deli);
-    }
-}
-int getSocket(char *input_addr,char *port,char *socketType){
-    int sockfd;
-    struct sockaddr_in addr,their_addr;
-    socklen_t socklen=sizeof(struct sockaddr);
-
-    bzero(&addr, sizeof(addr));//TODO what is bzero,htons?
-    addr.sin_family=PF_INET;
-    addr.sin_port=htons(atoi(port));
-    addr.sin_addr.s_addr=inet_addr(input_addr);
-
-    if((sockfd=socket(AF_INET,SOCK_STREAM,0))==-1){
-        perror("create socket");
-        return -1;
-    }
-
-    if (strcmp(socketType,"server")==0){
-        if (bind(sockfd,(struct sockaddr*)&addr,sizeof(struct sockaddr))==-1){
-            perror("bind");
-            return -1;
-        } else{
-            printf("bind success.\n");
-        }
-
-    }else if(strcmp(socketType,"client")==0){
-        dev.addr=addr;
-    }
-
-    return sockfd;
-}
 
 struct device dev;
 char buf[sizeof(struct message)];
@@ -113,21 +13,24 @@ int main(int argc,char *argv[]){
         printf("help\n");
     }
     else if (argc < 2){
-        printf("Please add IP argument:IP-address port socket-mode(server/client)\n");
+        printf("Please add IP argument:dest-address(client) self-address port socket-mode(server/client)\n");
         exit(1);
     }
+
 
     char c[2]="y";
     while(strcasecmp(c,"y")==0){
 
-        if (strcasecmp(argv[3],"server")==0) {
+        if (strcasecmp(argv[4],"server")==0) {
             dev.character=host;//////////tempral host decide, server is host
             dev.state=wait_send;
-            dev.fd=getSocket(argv[1],argv[2],argv[3]);
+            dev.addr=argv[2];
+            
+            getSocket("server");
         }else{
             dev.character=slave;
             dev.state=wait_recive;
-            dev.fd=getSocket(argv[1],argv[2],"client");
+            getSocket("client");
         }
 
         if (dev.fd!=-1){
