@@ -35,14 +35,15 @@ long int out(enum messageState ms){
 
 struct message *receive(enum messageState ms){
     struct message *msg;
-    msg=malloc(sizeof(struct message));
+    msg=(struct message *)malloc(sizeof(struct message));
     socklen_t addr_len=sizeof(dev.their_addr);
 
     //char* buf[sizeof(msg)];
     memset(buf,0,sizeof(buf));
-    long int len=recvfrom(dev.fd,buf,sizeof(buf),0,(struct sockaddr *) &dev.their_addr,&addr_len);
+    ssize_t len=recvfrom(dev.fd,buf,sizeof(buf),0,(struct sockaddr *) &dev.their_addr,&addr_len);
     memset(msg,0,sizeof(msg));
     memcpy(msg,buf,sizeof(buf));
+    printf("the %d received\n",msg->messageType);
     gettimeofday(&msg->rtime.tv,&msg->rtime.tz);//recv time
     if (len!=-1) {
         return msg;
@@ -86,9 +87,12 @@ int getSocket(char *input_addr,char *port,char *socketType){
             perror("listen");
             return -1;
         }
+        printf("waiting for accept...\n");
         if ((fd = accept(sockfd, (struct sockaddr *) &their_addr, &socklen)) == -1) {
             perror("accept");
             return -1;
+        } else{
+            printf("accept client.\n");
         }
 
     }else if(!strcmp(socketType,"client")){
@@ -99,6 +103,7 @@ int getSocket(char *input_addr,char *port,char *socketType){
             perror("Connect ");
             return -1;
         }
+        fd=sockfd;
     }
 
     return fd;
@@ -111,16 +116,45 @@ int getSocket(char *input_addr,char *port,char *socketType){
     }
 }*/
 
-void syncTime(){
+int syncTime(){
+    char in_buf[128];
+    long int len;
     while(1){
         if (dev.state==wait_send) {
-            if(!out(dev.msgState)){
-                continue;//error,try again
+            printf("send %d?(y/n)\n",dev.msgState);
+            memset(in_buf,0,sizeof(in_buf));
+            fgets(in_buf,sizeof(in_buf),stdin);
+            if (!strcasecmp(in_buf,"y")){
+                len=out(dev.msgState);
+                if(len==-1){
+                    printf("send error, continue %d?(y/n)\n",dev.msgState);
+                    if (!strcasecmp(fgets(in_buf,sizeof(in_buf),stdin),"y")){
+                        continue;//error,try again
+                    } else{
+                        return -1;
+                    }
+                } else{
+                    printf("resend?(y/n)\n");
+                    memset(in_buf,0,sizeof(in_buf));
+                    fgets(in_buf,sizeof(in_buf),stdin);
+                    if (!strcasecmp(in_buf,"y")){
+                        continue;//error,try again
+                    }
+                }
             }
+
         }else{
+            printf("waiting for %d\n",dev.msgState);
+            memset(in_buf,0,sizeof(in_buf));
             dev.msg[dev.msgState]=receive(dev.msgState);
             if(dev.msg[dev.msgState]==NULL){
-                continue;
+                perror("receive");
+                printf("continue receive?(y/n)");
+                if(!strcasecmp(fgets(in_buf,sizeof(in_buf),stdin),"y")){
+                    continue;
+                }else{
+                    return -1;
+                }
             }
         }
         if (dev.msgState==delay_resp&&((dev.state+dev.character)==1)) {// state and character different value
@@ -131,6 +165,7 @@ void syncTime(){
         }
         dev.state++;
     }
+    return 0;
 
 }
 
@@ -209,8 +244,20 @@ void calculate(){
 }
 
 void *circleSync(){
-    syncTime();
-    calculate();
+    char buf[128];
+    while(1){
+        if(syncTime()==-1){
+            perror("sync");
+            break;
+        }
+        calculate();
+        printf("sync again?(y/n)\n");
+        if(!strcasecmp(fgets(buf,sizeof(buf),stdin),"y")){
+            continue;
+        } else{
+            break;
+        }
+    }
 
 }
 

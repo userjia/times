@@ -18,10 +18,10 @@ struct msg_buf{
 };
 
 struct message{
-    int messageType;
-    unsigned short messageLength;
-    unsigned short sequenceID;//报文序列号
-    signed char logMessageInterval;//报文发送间隔
+    int messageType;///why enum can't
+    //unsigned short messageLength;
+    //unsigned short sequenceID;//报文序列号
+    //signed char logMessageInterval;//报文发送间隔
     struct timeStamp stime;
     struct timeStamp rtime;
 };
