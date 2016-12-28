@@ -25,6 +25,6 @@ extern void *circleSync();
 extern void listenCommad(char *a);
 extern void sendCommand(char *a);
 
-extern void getSocket(char *input_addr,char *port,char *socketType);
+extern int getSocket(char *socketType);
 
 #endif //TIMES_MAIN_H_H

@@ -11,7 +11,7 @@ ssize_t out(enum messageState ms){
 
     memset(buf,'\0',sizeof(buf));
     memcpy(buf,&msg,sizeof(msg));
-    ssize_t len=sendto(dev.fd,buf,strlen(buf),0,(struct sockaddr *) &dev.addr, sizeof(dev.addr));// TODO struct point
+    ssize_t len=sendto(dev.fd,buf,strlen(buf),0,(struct sockaddr *) &dev.their_addr, sizeof(dev.their_addr));// TODO struct point
     if (len==-1) {
         perror("send");
     }
@@ -80,7 +80,6 @@ int syncTime(){
                 }
             }else{
                 printf("cancel send\n");
-
             }
         }else{
             printf("waiting for %d\n",dev.msgState);
@@ -100,9 +99,14 @@ int syncTime(){
             dev.state=done;
             break;
         }else if(dev.msgState!=sync){
-            dev.state=(dev.state/-1)+1;/////0 to 1 or 1 to 0
+            //dev.state=(dev.state/(-1))+1;/////0 to 1 or 1 to 0
+            if (dev.state==0){
+                dev.state=wait_send;
+            }else{
+                dev.state=wait_recive;
+            }
         }
-        dev.state++;
+        dev.msgState++;//TODO segment fault may be here ,fuck
     }
     return 0;
 
