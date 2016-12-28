@@ -77,8 +77,6 @@ void sendCommand(char *a){
 }
 int getSocket(char *input_addr,char *port,char *socketType){
     int sockfd;
-    int fd=0;
-    int lisnum=1;//for listening client extend
     struct sockaddr_in addr,their_addr;
     socklen_t socklen=sizeof(struct sockaddr);
 
@@ -96,31 +94,15 @@ int getSocket(char *input_addr,char *port,char *socketType){
         if (bind(sockfd,(struct sockaddr*)&addr,sizeof(struct sockaddr))==-1){
             perror("bind");
             return -1;
-        }
-        if (listen(sockfd,lisnum)==-1){
-            perror("listen");
-            return -1;
-        }
-        printf("waiting for accept...\n");
-        if ((fd = accept(sockfd, (struct sockaddr *) &their_addr, &socklen)) == -1) {
-            perror("accept");
-            return -1;
         } else{
-            printf("accept client.\n");
+            printf("bind success.\n");
         }
 
     }else if(strcmp(socketType,"client")==0){
         dev.addr=addr;
-
-        if (connect(sockfd, (struct sockaddr *) &addr, sizeof(addr)) != 0)
-        {
-            perror("Connect ");
-            return -1;
-        }
-        fd=sockfd;
     }
 
-    return fd;
+    return sockfd;
 }
 
 struct device dev;
@@ -135,9 +117,7 @@ int main(int argc,char *argv[]){
         exit(1);
     }
 
-    char c[2];
-    printf("begin?\n");
-    scanf("%s",c);
+    char c[2]="y";
     while(strcasecmp(c,"y")==0){
 
         if (strcasecmp(argv[3],"server")==0) {

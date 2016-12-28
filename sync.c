@@ -25,7 +25,7 @@ struct message *receive(enum messageState ms){
 
     //char* buf[sizeof(msg)];
     memset(buf,'\0',sizeof(buf));
-    ssize_t len=recvfrom(dev.fd,buf,sizeof(buf),0,(struct sockaddr *) &dev.their_addr,&addr_len);
+    ssize_t len=recvfrom(dev.fd,buf,sizeof(buf)-1,0,(struct sockaddr *) &dev.their_addr,&addr_len);
     memset(msg,'\0',sizeof(msg));
     memcpy(msg,buf,sizeof(buf));
 
