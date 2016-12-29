@@ -20,9 +20,6 @@ int main(int argc,char *argv[]){
     }
 
 
-
-
-
     pthread_t circleThread,commandThread;
     pthread_create(&circleThread,NULL,(void *)circleSync,NULL);
     while(1){

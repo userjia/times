@@ -4,6 +4,7 @@
 #include "main.h"
 struct device dev;
 char buf[sizeof(struct message)];
+
 ssize_t out(enum messageState ms){
     struct message *msg;
     msg=(struct message *)malloc(sizeof(struct message));
@@ -24,7 +25,8 @@ ssize_t out(enum messageState ms){
         perror("send");
     }
     if(dev.msgState==sync_time||dev.msgState==delay_req){
-        gettimeofday(&(msg->stime.tv),&(msg->stime.tz));//send time
+        //gettimeofday(&(msg->stime.tv),&(msg->stime.tz));//send time
+        clock_gettime(CLOCK_REALTIME,&(msg->stime));
         dev.msg[dev.msgState]=msg;
     }
     return len;
@@ -43,7 +45,8 @@ struct message *receive(enum messageState ms){
     //memset(msg,'\0',sizeof(msg));
     //memcpy(msg,buf,sizeof(buf));
     if (dev.msgState==sync_time||dev.msgState==delay_req){
-        gettimeofday(&(msg->rtime.tv),&(msg->rtime.tz));//recv time
+        //gettimeofday(&(msg->rtime.tv),&(msg->rtime.tz));//recv time
+        clock_gettime(CLOCK_REALTIME,&(msg->rtime));
     }
 
     if (dev.msgState==follow_up){
@@ -138,34 +141,39 @@ int syncTime(){
 }
 
 
-struct timeval sub(struct timeval a,struct timeval b){
-    struct timeval time;
+struct timespec sub(struct timespec a,struct timespec b){
+    struct timespec time;
     time.tv_sec=a.tv_sec-b.tv_sec;
-    time.tv_usec=a.tv_usec-b.tv_usec;
+    time.tv_nsec=a.tv_nsec-b.tv_nsec;
     return time;
 }
 
-struct timeval add(struct timeval a,struct timeval b){
-    struct timeval time;
+struct timespec add(struct timespec a,struct timespec b){
+    struct timespec time;
     time.tv_sec=a.tv_sec+b.tv_sec;
-    time.tv_usec=a.tv_usec+b.tv_usec;
+    time.tv_nsec=a.tv_nsec+b.tv_nsec;
     return time;
 }
 
-struct timeval devide(struct timeval a){
-    struct timeval time={a.tv_sec/2,a.tv_usec/2};
+struct timespec devide(struct timespec a){
+    struct timespec time={a.tv_sec/2,a.tv_nsec/2};
     return time;
 }
 
 
 void calculate(){
 
-    struct timeval t1=dev.msg[0]->stime.tv;
+    /*struct timespect1=dev.msg[0]->stime.tv;
     struct timeval t2=dev.msg[0]->rtime.tv;
     struct timeval t3=dev.msg[2]->stime.tv;
-    struct timeval t4=dev.msg[2]->rtime.tv;
+    struct timeval t4=dev.msg[2]->rtime.tv;*/
 
-    printf("%d:%d\n%d:%d\n%d:%d\n%d:%d\n",t1.tv_sec,t1.tv_usec,t2.tv_sec,t2.tv_usec,t3.tv_sec,t3.tv_usec,t4.tv_sec,t4.tv_usec);
+    struct timespec t1=dev.msg[0]->stime;
+    struct timespec t2=dev.msg[0]->rtime;
+    struct timespec t3=dev.msg[2]->stime;
+    struct timespec t4=dev.msg[2]->rtime;
+    
+    printf("%d:%d\n%d:%d\n%d:%d\n%d:%d\n",t1.tv_sec,t1.tv_nsec,t2.tv_sec,t2.tv_nsec,t3.tv_sec,t3.tv_nsec,t4.tv_sec,t4.tv_nsec);
 
     dev.delay=devide(add(sub(t2,t1),sub(t4,t3)));
     dev.offset=devide(sub(sub(t2,t1),sub(t4,t3)));
@@ -182,8 +190,8 @@ void *circleSync(){
             }
             if (dev.character == slave) {
                 calculate();
-                printf("delay is %d-%d\n", dev.delay.tv_sec, dev.delay.tv_usec);
-                printf("offset is %d-%d\n", dev.offset.tv_sec, dev.offset.tv_usec);
+                printf("delay is %d-%d\n", dev.delay.tv_sec, dev.delay.tv_nsec);
+                printf("offset is %d-%d\n", dev.offset.tv_sec, dev.offset.tv_nsec);
                 dev.state=wait_recive;
             } else{
                 dev.state=wait_send;

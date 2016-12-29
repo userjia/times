@@ -7,10 +7,14 @@
 #define MASTER 0
 #define SLAVE 1
 
-struct timeStamp{
+/*struct timeStamp{
     struct timeval tv;
     struct timezone tz;
 };
+
+struct timeStamp{
+    struct timespec tv;
+};*/
 
 struct msg_buf{
     long type;
@@ -22,10 +26,15 @@ struct message{
     //unsigned short messageLength;
     //unsigned short sequenceID;//报文序列号
     //signed char logMessageInterval;//报文发送间隔
-    struct timeStamp stime;
-    struct timeStamp rtime;
-    struct timeStamp content;
+
+    //struct timeStamp stime;
+    //struct timeStamp rtime;
+    //struct timeStamp content;
     //struct message *content;
+
+    struct timespec stime;
+    struct timespec rtime;
+    struct timespec content;
 };
 
 struct connet{
@@ -52,8 +61,8 @@ enum deviceState{
 
 struct delivery{
     char *op;
-    struct timeval offset;
-    struct timeval delay;
+    struct timespec offset;
+    struct timespec delay;
 };
 
 struct device{
@@ -64,8 +73,8 @@ struct device{
     enum deviceState state;
     enum messageState msgState;
     struct message *msg[4];
-    struct timeval offset;
-    struct timeval delay;
+    struct timespec offset;
+    struct timespec delay;
 };
 
 struct config{

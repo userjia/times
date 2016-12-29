@@ -3,7 +3,7 @@
 //
 #include "main.h"
 #include "entity.h"
-
+/*
 void getConfig(){
     FILE *fp;
     fp=fopen("./config","r");
@@ -47,3 +47,4 @@ void setSocket(){
 
     }
 }
+*/
