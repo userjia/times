@@ -68,4 +68,10 @@ struct device{
     struct timeval delay;
 };
 
+struct config{
+    char title[20];
+    char content[64];
+    struct config *next;
+};
+
 #endif //TIMES_ENTITY_H
