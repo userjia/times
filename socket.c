@@ -3,12 +3,9 @@ struct device dev;
 
 int getSocket(char *socketType){
     int sockfd;
-    char buf[128];
-    char c[2];
-    ssize_t len;
+
     struct sockaddr_in addr=dev.addr;
-    struct sockaddr_in their_addr;
-    socklen_t socklen=sizeof(struct sockaddr);
+
 
     //bzero(&addr, sizeof(addr));//TODO what is bzero,htons?
 
@@ -21,35 +18,57 @@ int getSocket(char *socketType){
         return -1;
     }
 
+    dev.fd=sockfd;
+}
+
+int confirmSock(int character){
+    int sockfd;
+    char buf[128];
+    char c[2];
+    ssize_t len;
+    struct sockaddr_in addr=dev.addr;
+    struct sockaddr_in their_addr;
+    socklen_t socklen=sizeof(struct sockaddr);
+    char *socketType;
+    sockfd=dev.fd;
+    if (character==host){
+        socketType="server";
+    }else{
+        socketType="client";
+    }
+
     if (strcmp(socketType,"server")==0){
 
-            printf("bind success, listening\n");
-            while (1){
-                len=recvfrom(sockfd,buf,sizeof(buf)-1,0,(struct sockaddr *) &their_addr,&socklen);
-                if (len!=-1) {
-                    printf("get connection from %s\n",inet_ntoa(their_addr.sin_addr));
-                    dev.their_addr=their_addr;
+        printf("bind success, listening\n");
+        while (1){
+            len=recvfrom(sockfd,buf,sizeof(buf)-1,0,(struct sockaddr *) &their_addr,&socklen);
+            if (len!=-1) {
+                printf("get connection from %s\n",inet_ntoa(their_addr.sin_addr));
+                dev.their_addr=their_addr;
+            } else{
+                perror("receive");
+                printf("try again?(y):\n");
+                scanf("%s",c);
+                if(strcasecmp(c,"y")==0){
+                    continue;
                 } else{
-                    perror("receive");
-                    printf("try again?(y):\n");
-                    scanf("%s",c);
-                    if(strcasecmp(c,"y")==0){
-                        continue;
-                    } else{
-                        exit(-3);
-                    }
+                    exit(-3);
                 }
-                memset(buf,'\0', sizeof(buf));
-                strcpy(buf,"hello server");
-                sendto(sockfd,buf,strlen(buf),0,(struct sockaddr *) &dev.their_addr,sizeof(dev.their_addr));
-                break;
             }
+            memset(buf,'\0', sizeof(buf));
+            strcpy(buf,"hello server");
+            len=sendto(sockfd,buf,strlen(buf),0,(struct sockaddr *) &dev.their_addr,sizeof(dev.their_addr));
+            if (len!=-1){
+                return 0;
+            }
+
+        }
 
 
     }else if(strcmp(socketType,"client")==0){
         while(1){
             //memset(buf,'\0', sizeof(buf));
-            strcpy(buf,"hello server");
+            strcpy(buf,"sync time");
             //memcpy(buf,h,sizeof(*h));
             len=sendto(sockfd,buf,strlen(buf),0,(struct sockaddr *) &dev.their_addr,sizeof(dev.their_addr));
             if(len!=-1){
@@ -81,12 +100,14 @@ int getSocket(char *socketType){
                 } else{
                     exit(-4);
                 }
+            } else if(strcasecmp(buf,"ok")){
+                printf("start sync.\n");
+                return 0;
             } else{
-                break;
+                printf("confirm wrong.\n");
+                return -1;
             }
         }
 
     }
-
-    dev.fd=sockfd;
 }

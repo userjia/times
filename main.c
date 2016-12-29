@@ -1,6 +1,7 @@
 //
 // Created by jp on 12/21/16.
 //
+#include <zconf.h>
 #include "main.h"
 
 
@@ -54,7 +55,7 @@ int main(int argc,char *argv[]){
     pthread_t circleThread,commandThread;
     pthread_create(&circleThread,NULL,(void *)circleSync,NULL);
     while(1){
-
+            sleep(500);
     }
     //pthread_create(&commandThread,NULL,(void *)listenCommand,argv[0]);
     //sendCommand(argv[0]);

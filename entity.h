@@ -24,6 +24,8 @@ struct message{
     //signed char logMessageInterval;//报文发送间隔
     struct timeStamp stime;
     struct timeStamp rtime;
+    struct timeStamp content;
+    //struct message *content;
 };
 
 struct connet{
@@ -36,7 +38,7 @@ enum deviceCharacter{
 };
 
 enum messageState{
-    sync,
+    sync_time,
     follow_up,
     delay_req,
     delay_resp,

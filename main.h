@@ -27,4 +27,6 @@ extern void sendCommand(char *a);
 
 extern int getSocket(char *socketType);
 
+extern int confirmSock(int character);
+
 #endif //TIMES_MAIN_H_H
