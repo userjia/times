@@ -32,6 +32,11 @@ struct connet{
     char *addr;
 };
 
+struct config{
+    char title[20];
+    char content[64];
+};
+
 enum deviceCharacter{
     host,
     slave,
@@ -66,6 +71,7 @@ struct device{
     struct message *msg[4];
     struct timeval offset;
     struct timeval delay;
+    struct config configs[5];
 };
 
 #endif //TIMES_ENTITY_H

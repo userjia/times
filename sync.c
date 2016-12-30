@@ -175,6 +175,7 @@ void *circleSync(){
     char in[2]="y";
 
     while (strcasecmp(in, "y") == 0) {
+
         if(confirmSock(dev.character)==0) {
             if (syncTime() == -1) {
                 perror("sync_time");
