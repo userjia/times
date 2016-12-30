@@ -4,8 +4,6 @@
 
 #ifndef TIMES_ENTITY_H
 #define TIMES_ENTITY_H
-#define MASTER 0
-#define SLAVE 1
 
 struct timeStamp{
     struct timeval tv;
@@ -19,13 +17,9 @@ struct msg_buf{
 
 struct message{
     int messageType;///why enum can't
-    //unsigned short messageLength;
-    //unsigned short sequenceID;//报文序列号
-    //signed char logMessageInterval;//报文发送间隔
     struct timeStamp stime;
     struct timeStamp rtime;
     struct timeStamp content;
-    //struct message *content;
 };
 
 struct connet{

@@ -123,6 +123,33 @@ times/fast:
 	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/build
 .PHONY : times/fast
 
+command.o: command.c.o
+
+.PHONY : command.o
+
+# target to build an object file
+command.c.o:
+	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/command.c.o
+.PHONY : command.c.o
+
+command.i: command.c.i
+
+.PHONY : command.i
+
+# target to preprocess a source file
+command.c.i:
+	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/command.c.i
+.PHONY : command.c.i
+
+command.s: command.c.s
+
+.PHONY : command.s
+
+# target to generate assembly for a file
+command.c.s:
+	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/command.c.s
+.PHONY : command.c.s
+
 config.o: config.c.o
 
 .PHONY : config.o
@@ -176,6 +203,33 @@ main.s: main.c.s
 main.c.s:
 	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/main.c.s
 .PHONY : main.c.s
+
+msgq.o: msgq.c.o
+
+.PHONY : msgq.o
+
+# target to build an object file
+msgq.c.o:
+	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/msgq.c.o
+.PHONY : msgq.c.o
+
+msgq.i: msgq.c.i
+
+.PHONY : msgq.i
+
+# target to preprocess a source file
+msgq.c.i:
+	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/msgq.c.i
+.PHONY : msgq.c.i
+
+msgq.s: msgq.c.s
+
+.PHONY : msgq.s
+
+# target to generate assembly for a file
+msgq.c.s:
+	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/msgq.c.s
+.PHONY : msgq.c.s
 
 socket.o: socket.c.o
 
@@ -240,12 +294,18 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... times"
+	@echo "... command.o"
+	@echo "... command.i"
+	@echo "... command.s"
 	@echo "... config.o"
 	@echo "... config.i"
 	@echo "... config.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... msgq.o"
+	@echo "... msgq.i"
+	@echo "... msgq.s"
 	@echo "... socket.o"
 	@echo "... socket.i"
 	@echo "... socket.s"

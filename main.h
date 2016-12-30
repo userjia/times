@@ -22,12 +22,11 @@ extern struct device dev;
 extern char buf[sizeof(struct message)];
 extern void *circleSync();
 
-extern void listenCommad(char *a);
-extern void sendCommand(char *a);
+extern void listenCommand(char *a);
+extern void sendCommand(char *a,char *cmd);
+extern void listenSend(char *a);
 
 extern int getSocket();
-
 extern int confirmSock(int character);
-
 extern void configSocket();
 #endif //TIMES_MAIN_H_H

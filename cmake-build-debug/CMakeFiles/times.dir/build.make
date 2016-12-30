@@ -129,9 +129,33 @@ CMakeFiles/times.dir/socket.c.o.provides: CMakeFiles/times.dir/socket.c.o.requir
 CMakeFiles/times.dir/socket.c.o.provides.build: CMakeFiles/times.dir/socket.c.o
 
 
+CMakeFiles/times.dir/msgq.c.o: CMakeFiles/times.dir/flags.make
+CMakeFiles/times.dir/msgq.c.o: ../msgq.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jp/Work/time/times/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/times.dir/msgq.c.o"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/times.dir/msgq.c.o   -c /home/jp/Work/time/times/msgq.c
+
+CMakeFiles/times.dir/msgq.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/times.dir/msgq.c.i"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/jp/Work/time/times/msgq.c > CMakeFiles/times.dir/msgq.c.i
+
+CMakeFiles/times.dir/msgq.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/times.dir/msgq.c.s"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/jp/Work/time/times/msgq.c -o CMakeFiles/times.dir/msgq.c.s
+
+CMakeFiles/times.dir/msgq.c.o.requires:
+
+.PHONY : CMakeFiles/times.dir/msgq.c.o.requires
+
+CMakeFiles/times.dir/msgq.c.o.provides: CMakeFiles/times.dir/msgq.c.o.requires
+	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/msgq.c.o.provides.build
+.PHONY : CMakeFiles/times.dir/msgq.c.o.provides
+
+CMakeFiles/times.dir/msgq.c.o.provides.build: CMakeFiles/times.dir/msgq.c.o
+
+
 CMakeFiles/times.dir/config.c.o: CMakeFiles/times.dir/flags.make
 CMakeFiles/times.dir/config.c.o: ../config.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jp/Work/time/times/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/times.dir/config.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jp/Work/time/times/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/times.dir/config.c.o"
 	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/times.dir/config.c.o   -c /home/jp/Work/time/times/config.c
 
 CMakeFiles/times.dir/config.c.i: cmake_force
@@ -153,12 +177,38 @@ CMakeFiles/times.dir/config.c.o.provides: CMakeFiles/times.dir/config.c.o.requir
 CMakeFiles/times.dir/config.c.o.provides.build: CMakeFiles/times.dir/config.c.o
 
 
+CMakeFiles/times.dir/command.c.o: CMakeFiles/times.dir/flags.make
+CMakeFiles/times.dir/command.c.o: ../command.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/jp/Work/time/times/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/times.dir/command.c.o"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/times.dir/command.c.o   -c /home/jp/Work/time/times/command.c
+
+CMakeFiles/times.dir/command.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/times.dir/command.c.i"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/jp/Work/time/times/command.c > CMakeFiles/times.dir/command.c.i
+
+CMakeFiles/times.dir/command.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/times.dir/command.c.s"
+	/usr/bin/cc  $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/jp/Work/time/times/command.c -o CMakeFiles/times.dir/command.c.s
+
+CMakeFiles/times.dir/command.c.o.requires:
+
+.PHONY : CMakeFiles/times.dir/command.c.o.requires
+
+CMakeFiles/times.dir/command.c.o.provides: CMakeFiles/times.dir/command.c.o.requires
+	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/command.c.o.provides.build
+.PHONY : CMakeFiles/times.dir/command.c.o.provides
+
+CMakeFiles/times.dir/command.c.o.provides.build: CMakeFiles/times.dir/command.c.o
+
+
 # Object files for target times
 times_OBJECTS = \
 "CMakeFiles/times.dir/main.c.o" \
 "CMakeFiles/times.dir/sync.c.o" \
 "CMakeFiles/times.dir/socket.c.o" \
-"CMakeFiles/times.dir/config.c.o"
+"CMakeFiles/times.dir/msgq.c.o" \
+"CMakeFiles/times.dir/config.c.o" \
+"CMakeFiles/times.dir/command.c.o"
 
 # External object files for target times
 times_EXTERNAL_OBJECTS =
@@ -166,10 +216,12 @@ times_EXTERNAL_OBJECTS =
 times: CMakeFiles/times.dir/main.c.o
 times: CMakeFiles/times.dir/sync.c.o
 times: CMakeFiles/times.dir/socket.c.o
+times: CMakeFiles/times.dir/msgq.c.o
 times: CMakeFiles/times.dir/config.c.o
+times: CMakeFiles/times.dir/command.c.o
 times: CMakeFiles/times.dir/build.make
 times: CMakeFiles/times.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/jp/Work/time/times/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking C executable times"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/jp/Work/time/times/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking C executable times"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/times.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -180,7 +232,9 @@ CMakeFiles/times.dir/build: times
 CMakeFiles/times.dir/requires: CMakeFiles/times.dir/main.c.o.requires
 CMakeFiles/times.dir/requires: CMakeFiles/times.dir/sync.c.o.requires
 CMakeFiles/times.dir/requires: CMakeFiles/times.dir/socket.c.o.requires
+CMakeFiles/times.dir/requires: CMakeFiles/times.dir/msgq.c.o.requires
 CMakeFiles/times.dir/requires: CMakeFiles/times.dir/config.c.o.requires
+CMakeFiles/times.dir/requires: CMakeFiles/times.dir/command.c.o.requires
 
 .PHONY : CMakeFiles/times.dir/requires
 
