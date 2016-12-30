@@ -22,10 +22,10 @@ extern struct device dev;
 extern char buf[sizeof(struct message)];
 extern void *circleSync();
 
-extern void listenCommand(char *a);
-extern void sendCommand(char *a,char *cmd);
-extern void listenSend(char *a);
-
+extern void listenCommand(int a);
+extern void sendCommand(int a,char *cmd);
+extern void listenSend(int a);
+extern int getMsgid(char *a);
 extern int getSocket();
 extern int confirmSock(int character);
 extern void configSocket();

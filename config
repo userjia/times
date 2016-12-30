@@ -1,14 +1,14 @@
 #my_address
-127.0.0.1
+192.168.124.1
 
 #my_port
 7838
 
 #my_character
-server
+client
 
 #their_address
-null
+10.20.50.120
 
 #their_port
-null
+7838

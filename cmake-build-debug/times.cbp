@@ -83,25 +83,10 @@
 		<Unit filename="/home/jp/Work/time/times/command.c">
 			<Option target="times"/>
 		</Unit>
-		<Unit filename="/home/jp/Work/time/times/config.c">
-			<Option target="times"/>
-		</Unit>
-		<Unit filename="/home/jp/Work/time/times/entity.h">
-			<Option target="times"/>
-		</Unit>
-		<Unit filename="/home/jp/Work/time/times/main.c">
-			<Option target="times"/>
-		</Unit>
 		<Unit filename="/home/jp/Work/time/times/main.h">
 			<Option target="times"/>
 		</Unit>
 		<Unit filename="/home/jp/Work/time/times/msgq.c">
-			<Option target="times"/>
-		</Unit>
-		<Unit filename="/home/jp/Work/time/times/socket.c">
-			<Option target="times"/>
-		</Unit>
-		<Unit filename="/home/jp/Work/time/times/sync.c">
 			<Option target="times"/>
 		</Unit>
 		<Unit filename="/home/jp/Work/time/times/CMakeLists.txt">

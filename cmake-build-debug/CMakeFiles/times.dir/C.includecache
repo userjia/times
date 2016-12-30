@@ -6,19 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/home/jp/Work/time/times/config.c
+/home/jp/Work/time/times/command.c
 main.h
 /home/jp/Work/time/times/main.h
-entity.h
-/home/jp/Work/time/times/entity.h
 
 /home/jp/Work/time/times/entity.h
-
-/home/jp/Work/time/times/main.c
-unistd.h
--
-main.h
-/home/jp/Work/time/times/main.h
 
 /home/jp/Work/time/times/main.h
 time.h
@@ -44,11 +36,7 @@ pthread.h
 entity.h
 /home/jp/Work/time/times/entity.h
 
-/home/jp/Work/time/times/socket.c
-main.h
-/home/jp/Work/time/times/main.h
-
-/home/jp/Work/time/times/sync.c
+/home/jp/Work/time/times/msgq.c
 main.h
 /home/jp/Work/time/times/main.h
 

@@ -4,5 +4,5 @@ project(times)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 link_libraries("pthread")
 
-set(SOURCE_FILES main.c entity.h sync.c main.h socket.c msgq.c config.c command.c)
+set(SOURCE_FILES  main.h  msgq.c command.c)
 add_executable(times ${SOURCE_FILES})

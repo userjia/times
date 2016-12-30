@@ -5,11 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
   "/home/jp/Work/time/times/command.c" "/home/jp/Work/time/times/cmake-build-debug/CMakeFiles/times.dir/command.c.o"
-  "/home/jp/Work/time/times/config.c" "/home/jp/Work/time/times/cmake-build-debug/CMakeFiles/times.dir/config.c.o"
-  "/home/jp/Work/time/times/main.c" "/home/jp/Work/time/times/cmake-build-debug/CMakeFiles/times.dir/main.c.o"
   "/home/jp/Work/time/times/msgq.c" "/home/jp/Work/time/times/cmake-build-debug/CMakeFiles/times.dir/msgq.c.o"
-  "/home/jp/Work/time/times/socket.c" "/home/jp/Work/time/times/cmake-build-debug/CMakeFiles/times.dir/socket.c.o"
-  "/home/jp/Work/time/times/sync.c" "/home/jp/Work/time/times/cmake-build-debug/CMakeFiles/times.dir/sync.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 
