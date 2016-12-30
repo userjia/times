@@ -57,7 +57,7 @@ struct message *receive(enum messageState ms){
     }
 
     if (len!=-1) {
-        printf("the %d received\n",msg->messageType);
+        printf("the %ld received\n",msg->messageType);
         return msg;
     }else{
         //perror("receive");
@@ -85,13 +85,13 @@ int syncTime(){
     ssize_t len;
     while (dev.state != done) {
         if (dev.state == wait_send) {
-            //printf("send %d?(y/n)\n",dev.msgState);
-            printf("send %d\n", dev.msgState);
+            //printf("send %ld?(y/n)\n",dev.msgState);
+            printf("send %ld\n", dev.msgState);
             //scanf("%s",in);
             //if (strcasecmp(in,"y")==0){
             len = out(dev.msgState);
             if (len == -1) {
-                printf("send error, continue %d?(y/n)\n", dev.msgState);
+                printf("send error, continue %ld?(y/n)\n", dev.msgState);
                 scanf("%s", in);
                 if (strcasecmp(in, "y") == 0) {
                     continue;//error,try again
@@ -109,7 +109,7 @@ int syncTime(){
             //      printf("cancel send\n");
             //}
         } else {
-            printf("waiting for %d\n", dev.msgState);
+            printf("waiting for %ld\n", dev.msgState);
             //dev.msg[dev.msgState]=(struct message *)malloc(sizeof(struct message));
             dev.msg[dev.msgState] = receive(dev.msgState);
             if (dev.msg[dev.msgState] == NULL) {
@@ -173,7 +173,7 @@ void calculate(){
     struct timespec t3=dev.msg[2]->stime;
     struct timespec t4=dev.msg[2]->rtime;
     
-    printf("%d:%d\n%d:%d\n%d:%d\n%d:%d\n",t1.tv_sec,t1.tv_nsec,t2.tv_sec,t2.tv_nsec,t3.tv_sec,t3.tv_nsec,t4.tv_sec,t4.tv_nsec);
+    printf("%ld:%ld\n%ld:%ld\n%ld:%ld\n%ld:%ld\n",t1.tv_sec,t1.tv_nsec,t2.tv_sec,t2.tv_nsec,t3.tv_sec,t3.tv_nsec,t4.tv_sec,t4.tv_nsec);
 
     dev.delay=devide(add(sub(t2,t1),sub(t4,t3)));
     dev.offset=devide(sub(sub(t2,t1),sub(t4,t3)));
@@ -190,8 +190,8 @@ void *circleSync(){
             }
             if (dev.character == slave) {
                 calculate();
-                printf("delay is %d-%d\n", dev.delay.tv_sec, dev.delay.tv_nsec);
-                printf("offset is %d-%d\n", dev.offset.tv_sec, dev.offset.tv_nsec);
+                printf("delay is %ld-%ld\n", dev.delay.tv_sec, dev.delay.tv_nsec);
+                printf("offset is %ld-%ld\n", dev.offset.tv_sec, dev.offset.tv_nsec);
                 dev.state=wait_recive;
             } else{
                 dev.state=wait_send;

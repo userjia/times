@@ -20,6 +20,24 @@ int main(int argc,char *argv[]){
     }
 
 
+    struct sockaddr_in addr;
+    addr.sin_family=AF_INET;
+    addr.sin_addr.s_addr=inet_addr(argv[1]);
+    addr.sin_port=htons(atoi(argv[2]));
+    dev.addr=addr;
+
+    if (strcasecmp(argv[3],"server")==0) {
+        dev.character=host;//////////tempral host decide, server is host
+        dev.state=wait_send;
+    }else{
+        dev.character=slave;
+        dev.state=wait_recive;
+        dev.their_addr.sin_family=AF_INET;
+        dev.their_addr.sin_addr.s_addr=inet_addr(argv[4]);
+        dev.their_addr.sin_port=htons(atoi(argv[5]));
+
+    }
+    getSocket();
     pthread_t circleThread,commandThread;
     pthread_create(&circleThread,NULL,(void *)circleSync,NULL);
     while(1){

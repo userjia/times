@@ -1,7 +1,7 @@
 #include "main.h"
 struct device dev;
 
-int getSocket(char *socketType){
+int getSocket(){
     int sockfd;
 
     struct sockaddr_in addr=dev.addr;

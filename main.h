@@ -25,7 +25,7 @@ extern void *circleSync();
 extern void listenCommad(char *a);
 extern void sendCommand(char *a);
 
-extern int getSocket(char *socketType);
+extern int getSocket();
 
 extern int confirmSock(int character);
 
