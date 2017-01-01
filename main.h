@@ -17,7 +17,7 @@
 #include <pthread.h>
 #include "entity.h"
 
-#define INPUTBUF 50
+#define BUFSIZE 64
 extern struct device dev;
 extern char buf[sizeof(struct message)];
 extern void *circleSync();

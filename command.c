@@ -3,13 +3,13 @@
 //
 #include "main.h"
 
-
-
 void main(int argc,char *argv[]){
     char cmd[64];
-    fgets(cmd,sizeof(cmd),stdin);
+    int msgid=getMsgid("/home/jp/ClionProjects/times-l/times/msgqtest");
+
     while (strcmp(cmd,"quit")!=0){
-        int msgid=getMsgid("../msgqtest");
+        printf("please input the command:\n");
+        fgets(cmd,sizeof(cmd),stdin);
         sendCommand(msgid,cmd);
         listenSend(msgid);
     }

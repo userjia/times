@@ -7,7 +7,7 @@ struct device dev;
 void getConfig(){
     FILE *fp;
     char buf[64];
-    fp=fopen("./config","r");
+    fp=fopen("/home/jp/ClionProjects/times-l/times/config","r");
     if (fp==NULL){
         perror("open config");
         exit(-4);

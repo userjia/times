@@ -10,9 +10,16 @@ struct timeStamp{
     struct timezone tz;
 };
 
+struct delivery{
+    char op[0];
+    struct timeval offset;
+    struct timeval delay;
+};
+
+
 struct msg_buf{
     long type;
-    struct delivery *msg;
+    struct delivery msg;
 };
 
 struct message{
@@ -49,11 +56,6 @@ enum deviceState{
     done,
 };
 
-struct delivery{
-    char *op;
-    struct timeval offset;
-    struct timeval delay;
-};
 
 struct device{
     int fd;

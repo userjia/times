@@ -11,6 +11,6 @@ int main(int argc,char *argv[]){
     getSocket();
     pthread_t circleThread;
     pthread_create(&circleThread,NULL,(void *)circleSync,NULL);
-    int msgid=getMsgid("./msgqtest");
+    int msgid=getMsgid("/home/jp/ClionProjects/times-l/times/msgqtest");
     listenCommand(msgid);
 }
