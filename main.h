@@ -16,6 +16,14 @@
 #include <sys/time.h>
 #include <pthread.h>
 #include "entity.h"
+#include <unistd.h>
+#include <bits/signum.h>
+#include <signal.h>
+#include <sys/stat.h>
+#include <bits/fcntl-linux.h>
+#include <fcntl.h>
+#include <sys/param.h>
+#include <error.h>
 
 #define BUFSIZE 64
 extern struct device dev;

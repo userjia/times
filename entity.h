@@ -11,9 +11,9 @@ struct timeStamp{
 };
 
 struct delivery{
-    char op[0];
     struct timeval offset;
     struct timeval delay;
+    char op[32];
 };
 
 

@@ -9,7 +9,10 @@ void main(int argc,char *argv[]){
 
     while (strcmp(cmd,"quit")!=0){
         printf("please input the command:\n");
+        //memset(cmd,'\0',sizeof(cmd));
         fgets(cmd,sizeof(cmd),stdin);
+        cmd[strlen(cmd)-1]='\0';
+        //scanf("%s",&cmd);
         sendCommand(msgid,cmd);
         listenSend(msgid);
     }
