@@ -69,6 +69,9 @@ struct device{
     struct config configs[5];
     int waitRecv;
     int serverTime;
+    int needResend;
+    int immediate;
+    int msgqid;
 };
 
 #endif //TIMES_ENTITY_H

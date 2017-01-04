@@ -57,6 +57,8 @@ void listenCommand(int msgid){
             printf("get command:%s\n",op);
             memset(&deli,0,sizeof(deli));
             if(strcmp(op,"offset")==0){
+                deli.offset=dev.offset;
+                deli.delay=dev.delay;
                 result="offset";
             }else if(strcmp(op,"sync quit")==0){
                 result="sync quit";
@@ -67,13 +69,11 @@ void listenCommand(int msgid){
                 result="start sync";
                 dev.waitRecv=0;
                 pthread_kill(circleThread,SIGUSR1);
-                sleep(1);
+                continue;
             }else{
                 result="unknown options";
             }
             strcpy(deli.op,result);
-            deli.offset=dev.offset;
-            deli.delay=dev.delay;
             msgqSend(msgid,2,deli);
         } else{
             perror("msgq receive\n");

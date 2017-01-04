@@ -35,6 +35,7 @@ extern void listenCommand(int a);
 extern void sendCommand(int a,char *cmd);
 extern void listenSend(int a);
 extern int getMsgid(char *a);
+extern void msgqSend(int msgid,int type,struct delivery deli);
 extern int getSocket();
 extern int confirmSock(int character);
 extern void configSocket();

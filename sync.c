@@ -55,6 +55,7 @@ struct message *receive(){
 int syncTime(){
     char in[2];
     ssize_t len;
+    dev.needResend=0;
     memset(&dev.delay,0,sizeof(dev.delay));
     memset(&dev.offset,0,sizeof(dev.offset));
     while (dev.state != done) {
@@ -70,6 +71,9 @@ int syncTime(){
             if (dev.msg[dev.msgState] == NULL) {
                 perror("receive");
                 return -1;
+            }else if(dev.msg[dev.msgState]->messageType!=dev.msgState){
+                dev.needResend=1;
+                return -2;
             }
         }
         if (dev.msgState == delay_resp && ((dev.state + dev.character) == 1)) {// state and character different value
@@ -83,6 +87,7 @@ int syncTime(){
             }
         }
         dev.msgState = dev.msgState + 1;
+
     }
     return 0;
 }
@@ -121,6 +126,7 @@ void calculate(){
 void sig(int s){
     if(s==SIGUSR1){
         printf("start sync immediately\n");
+        dev.immediate=1;
     } else{
         printf("unknown signal %d",s);
     }
@@ -148,6 +154,14 @@ void *circleSync(){
 
             if (dev.character == slave) {
                 calculate();
+                if (dev.immediate==1){
+                    struct delivery deli;
+                    deli.offset=dev.offset;
+                    deli.delay=dev.delay;
+                    strcpy(deli.op,"immediate offset");
+                    msgqSend(dev.msgqid,2,deli);
+                }
+
                 printf("delay is %d-%d\n", dev.delay.tv_sec, dev.delay.tv_nsec);
                 printf("offset is %d-%d\n", dev.offset.tv_sec, dev.offset.tv_nsec);
                 printf("sync time is: %d\n\n\n\n\n\n\n",dev.serverTime-1);
@@ -170,7 +184,9 @@ void *circleSync(){
                 printf("sync time is: %d\n\n\n\n\n\n\n",dev.serverTime-1);
             }
             for (int i = 0; i < 4; ++i) {
-                free(dev.msg[i]);
+                if(dev.msg[i]!=NULL){
+                    free(dev.msg[i]);
+                }
                 dev.msg[i] = NULL;
             }
             dev.msgState = sync_time;

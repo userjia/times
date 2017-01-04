@@ -44,6 +44,7 @@ int main(int argc,char *argv[]){
     if (dev.character==slave){
         pthread_create(&circleThread,NULL,(void *)circleSync,NULL);
         int msgid=getMsgid("/home/jp/ClionProjects/times-l/times/msgqtest");
+        dev.msgqid=msgid;
         listenCommand(msgid);
     } else{
 
