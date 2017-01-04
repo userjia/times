@@ -6,6 +6,7 @@
 #include "main.h"
 
 struct device dev;
+pthread_t circleThread;
 int main(int argc,char *argv[]){
 
     /*//daemon
@@ -39,8 +40,14 @@ int main(int argc,char *argv[]){
 
     configSocket();
     getSocket();
-    pthread_t circleThread;
-    pthread_create(&circleThread,NULL,(void *)circleSync,NULL);
-    int msgid=getMsgid("/home/jp/ClionProjects/times-l/times/msgqtest");
-    listenCommand(msgid);
+    dev.serverTime=1;
+    if (dev.character==slave){
+        pthread_create(&circleThread,NULL,(void *)circleSync,NULL);
+        int msgid=getMsgid("/home/jp/ClionProjects/times-l/times/msgqtest");
+        listenCommand(msgid);
+    } else{
+
+        circleSync();
+
+    }
 }

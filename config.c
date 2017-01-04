@@ -7,7 +7,7 @@ struct device dev;
 void getConfig(){
     FILE *fp;
     char buf[64];
-    fp=fopen("/home/jp/ClionProjects/times-l/times/config","r");
+    fp=fopen("./config","r");
     if (fp==NULL){
         perror("open config");
         exit(-4);
@@ -36,11 +36,13 @@ void configSocket(){
     if (strcasecmp(dev.configs[2].content,"server\n")==0) {
         dev.character=host;//////////tempral host decide, server is host
         dev.state=wait_send;
+        dev.waitRecv=0;
     }else{
         dev.character=slave;
         dev.state=wait_recive;
         dev.their_addr.sin_family=AF_INET;
         dev.their_addr.sin_addr.s_addr=inet_addr(dev.configs[3].content);
         dev.their_addr.sin_port=htons(atoi(dev.configs[4].content));
+        dev.waitRecv=1;
     }
 }

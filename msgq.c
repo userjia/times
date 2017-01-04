@@ -1,5 +1,6 @@
 #include "main.h"
 struct device dev;
+pthread_t circleThread;
 int getMsgid(char *a){
     key_t key;
     int msgid;
@@ -47,28 +48,33 @@ void listenCommand(int msgid){
     struct msg_buf *bufm;
     struct delivery deli;
     char c[2];
-    char *result;
+    char *result="";
     char op[64];
     while(1){
         bufm=msgqRecv(msgid,1);
         if (bufm->msg.op!=NULL){
             strcpy(op,bufm->msg.op);
             printf("get command:%s\n",op);
-            if(strcmp(op,"get offset")==0){
+            memset(&deli,0,sizeof(deli));
+            if(strcmp(op,"offset")==0){
                 result="offset";
+            }else if(strcmp(op,"sync quit")==0){
+                result="sync quit";
                 strcpy(deli.op,result);
-                deli.offset=dev.offset;
-                deli.delay=dev.delay;
-                msgqSend(msgid,2,deli);
-            }else if(strcmp(op,"quit sync")==0){
-                result="ready to quit";
-                bzero(&deli,sizeof(deli));
-                memcpy(deli.op,result,strlen(result)+1);
                 msgqSend(msgid,2,deli);
                 exit(0);
-            }else if(strcmp(op,"sync now")==0){
-
+            }else if(strcmp(op,"sync")==0){
+                result="start sync";
+                dev.waitRecv=0;
+                pthread_kill(circleThread,SIGUSR1);
+                sleep(1);
+            }else{
+                result="unknown options";
             }
+            strcpy(deli.op,result);
+            deli.offset=dev.offset;
+            deli.delay=dev.delay;
+            msgqSend(msgid,2,deli);
         } else{
             perror("msgq receive\n");
             printf("try again?\n");
@@ -96,13 +102,13 @@ void listenSend(int msgid){
         buf=msgqRecv(msgid,2);
         if (buf->msg.op!=NULL){
             printf("%s\n",buf->msg.op);
-            if (buf->msg.offset.tv_usec!=0||buf->msg.offset.tv_sec!=0){
-                printf("offset:%ld-%ld\n",buf->msg.delay.tv_sec,buf->msg.offset.tv_usec);
+            if (buf->msg.offset.tv_nsec!=0||buf->msg.offset.tv_sec!=0){
+                printf("offset:%ld-%ld\n",buf->msg.offset.tv_sec,buf->msg.offset.tv_nsec);
             }else{
                 printf("offset is 0");
             }
-            if (buf->msg.delay.tv_usec!=0||buf->msg.delay.tv_sec!=0){
-                printf("delay:%ld-%ld\n",buf->msg.delay.tv_sec,buf->msg.delay.tv_usec);
+            if (buf->msg.delay.tv_nsec!=0||buf->msg.delay.tv_sec!=0){
+                printf("delay:%ld-%ld\n",buf->msg.delay.tv_sec,buf->msg.delay.tv_nsec);
             }else{
                 printf("delay is 0");
             }

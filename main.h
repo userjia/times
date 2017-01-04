@@ -20,15 +20,16 @@
 #include <bits/signum.h>
 #include <signal.h>
 #include <sys/stat.h>
-#include <bits/fcntl-linux.h>
 #include <fcntl.h>
 #include <sys/param.h>
 #include <error.h>
+#include <bits/sigthread.h>
 
 #define BUFSIZE 64
 extern struct device dev;
 extern char buf[sizeof(struct message)];
 extern void *circleSync();
+extern pthread_t circleThread;
 
 extern void listenCommand(int a);
 extern void sendCommand(int a,char *cmd);

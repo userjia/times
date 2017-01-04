@@ -33,70 +33,55 @@ int confirmSock(int character){
     }
 
     if (strcmp(socketType,"server")==0){
-        printf("bind success, listening\n");
-        while (1){
+        printf("bind success, listening %d\n",dev.serverTime);
             len=recvfrom(sockfd,buf,sizeof(buf)-1,0,(struct sockaddr *) &their_addr,&socklen);
             if (len!=-1) {
                 printf("get connection from %s\n",inet_ntoa(their_addr.sin_addr));
                 dev.their_addr=their_addr;
+
             } else{
                 perror("receive");
-                printf("try again?(y):\n");
-                scanf("%s",c);
-                if(strcasecmp(c,"y")==0){
-                    continue;
-                } else{
-                    exit(-3);
-                }
+                return -1;
             }
             memset(buf,'\0', sizeof(buf));
-            strcpy(buf,"hello server");
+            strcpy(buf,"ok");
             len=sendto(sockfd,buf,strlen(buf),0,(struct sockaddr *) &dev.their_addr,sizeof(dev.their_addr));
             if (len!=-1){
                 return 0;
             }
-        }
+
     }else if(strcmp(socketType,"client")==0){
-        while(1){
+
             strcpy(buf,"sync time");
             len=sendto(sockfd,buf,strlen(buf),0,(struct sockaddr *) &dev.their_addr,sizeof(dev.their_addr));
             if(len!=-1){
                 printf("send success, wait to receive.\n");
-                break;
+                if(dev.waitRecv==1){
+                    sleep(1);
+                }
+                memset(buf,'\0', sizeof(buf));
+                len=recvfrom(sockfd,buf,sizeof(buf)-1,MSG_DONTWAIT,(struct sockaddr *) &their_addr,&socklen);
+                if (len!=-1) {
+                    printf("get connection from %s\n",inet_ntoa(their_addr.sin_addr));
+                    if(dev.their_addr.sin_addr.s_addr!=their_addr.sin_addr.s_addr){
+                        printf("undesired server, waiting for the right?(y/n):");
+                        exit(-4);
+                    } else if(strcasecmp(buf,"ok")==0){
+                        printf("start sync.\n");
+                        dev.waitRecv=0;
+                        return 0;
+                    } else{
+                        printf("confirm wrong.\n");
+                        return -1;
+                    }
+                }else{
+                    perror("socket recv");
+                    return -1;
+                }
             } else{
                 printf("send to server failed\n");
-                printf("try again?(y):\n");
-                scanf("%s",c);
-                if(strcasecmp(c,"y")==0){
-                    continue;
-                } else{
-                    exit(-3);
-                }
-            }
-        }
-
-        while(1){
-            memset(buf,'\0', sizeof(buf));
-            len=recvfrom(sockfd,buf,sizeof(buf)-1,0,(struct sockaddr *) &their_addr,&socklen);
-            if (len!=-1) {
-                printf("get connection from %s\n",inet_ntoa(their_addr.sin_addr));
-            }
-            if(dev.their_addr.sin_addr.s_addr!=their_addr.sin_addr.s_addr){
-                printf("undesired server, waiting for the right?(y/n):");
-                scanf("%s",c);
-                if(strcasecmp(c,"y")==0){
-                    continue;
-                } else{
-                    exit(-4);
-                }
-            } else if(strcasecmp(buf,"ok")){
-                printf("start sync.\n");
-                return 0;
-            } else{
-                printf("confirm wrong.\n");
                 return -1;
             }
-        }
+
     }
-    return 0;
 }

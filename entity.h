@@ -6,13 +6,12 @@
 #define TIMES_ENTITY_H
 
 struct timeStamp{
-    struct timeval tv;
-    struct timezone tz;
+    struct timespec tv;
 };
 
 struct delivery{
-    struct timeval offset;
-    struct timeval delay;
+    struct timespec offset;
+    struct timespec delay;
     char op[32];
 };
 
@@ -65,9 +64,11 @@ struct device{
     enum deviceState state;
     enum messageState msgState;
     struct message *msg[4];
-    struct timeval offset;
-    struct timeval delay;
+    struct timespec offset;
+    struct timespec delay;
     struct config configs[5];
+    int waitRecv;
+    int serverTime;
 };
 
 #endif //TIMES_ENTITY_H
