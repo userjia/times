@@ -20,7 +20,7 @@ ssize_t out(){
         perror("send");
     }
     if(dev.msgState==sync_time||dev.msgState==delay_req){
-        clock_gettime(CLOCK_MONOTONIC_RAW,&(msg->stime.tv));//send time
+        clock_gettime(CLOCK_MONOTONIC_RAW,&(msg->stime.tv));//////////////////////TODO send timestanp
         dev.msg[dev.msgState]=msg;
     }
     return len;
@@ -35,7 +35,7 @@ struct message *receive(){
     memset(msg,'\0',sizeof(msg));
     ssize_t len=recvfrom(dev.fd,msg,sizeof(*msg)-1,0,(struct sockaddr *) &dev.their_addr,&addr_len);
     if (dev.msgState==sync_time||dev.msgState==delay_req){
-        clock_gettime(CLOCK_MONOTONIC_RAW,&(msg->rtime.tv));//recv time
+        clock_gettime(CLOCK_MONOTONIC_RAW,&(msg->rtime.tv));//////////////////////TODO recv timestanp
     }
     if (dev.msgState==follow_up){
         dev.msg[dev.msgState-1]->stime=msg->content;
@@ -139,22 +139,22 @@ void *circleSync(){
     struct timespec rem;
     int confirm=-1;
     if (dev.character==slave){
-        if (signal(SIGUSR1,sig)==SIG_ERR){
+        if (signal(SIGUSR1,sig)==SIG_ERR){//msgq 中断注册
             printf("catch signal fail");
         }
     }
     while (1) {
-        confirm=confirmSock(dev.character);
+        confirm=confirmSock(dev.character);//与同步的另一台设备握手
         dev.serverTime++;
         if(confirm==0) {
-            if (syncTime() == -1) {
+            if (syncTime() == -1) {//同步时间，主要是获取消息及时间戳
                 perror("sync_time");
                 break;
             }
 
             if (dev.character == slave) {
-                calculate();
-                if (dev.immediate==1){
+                calculate();//计算offset、delay
+                if (dev.immediate==1){//立即要求下发送msgq
                     struct delivery deli;
                     deli.offset=dev.offset;
                     deli.delay=dev.delay;
@@ -162,12 +162,12 @@ void *circleSync(){
                     msgqSend(dev.msgqid,2,deli);
                 }
 
-                printf("delay is %d-%d\n", dev.delay.tv_sec, dev.delay.tv_nsec);
+                printf("delay is %d-%d\n", dev.delay.tv_sec, dev.delay.tv_nsec);//输出同步信息
                 printf("offset is %d-%d\n", dev.offset.tv_sec, dev.offset.tv_nsec);
                 printf("sync time is: %d\n\n\n\n\n\n\n",dev.serverTime-1);
                 dev.state=wait_recive;
 
-                if (clock_gettime(CLOCK_REALTIME,&t)==-1){
+                if (clock_gettime(CLOCK_REALTIME,&t)==-1){//休眠一段时间
                     perror("clock gettime");
                 }
                 t.tv_sec+=3;

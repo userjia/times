@@ -1,1 +1,1 @@
-/usr/bin/cc  -g   CMakeFiles/times.dir/msgq.c.o CMakeFiles/times.dir/command.c.o  -o times -lpthread 
+/usr/bin/cc  -g   CMakeFiles/times.dir/main.c.o CMakeFiles/times.dir/sync.c.o CMakeFiles/times.dir/socket.c.o CMakeFiles/times.dir/msgq.c.o CMakeFiles/times.dir/config.c.o  -o times -lpthread 

@@ -123,32 +123,59 @@ times/fast:
 	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/build
 .PHONY : times/fast
 
-command.o: command.c.o
+config.o: config.c.o
 
-.PHONY : command.o
+.PHONY : config.o
 
 # target to build an object file
-command.c.o:
-	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/command.c.o
-.PHONY : command.c.o
+config.c.o:
+	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/config.c.o
+.PHONY : config.c.o
 
-command.i: command.c.i
+config.i: config.c.i
 
-.PHONY : command.i
+.PHONY : config.i
 
 # target to preprocess a source file
-command.c.i:
-	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/command.c.i
-.PHONY : command.c.i
+config.c.i:
+	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/config.c.i
+.PHONY : config.c.i
 
-command.s: command.c.s
+config.s: config.c.s
 
-.PHONY : command.s
+.PHONY : config.s
 
 # target to generate assembly for a file
-command.c.s:
-	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/command.c.s
-.PHONY : command.c.s
+config.c.s:
+	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/config.c.s
+.PHONY : config.c.s
+
+main.o: main.c.o
+
+.PHONY : main.o
+
+# target to build an object file
+main.c.o:
+	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/main.c.o
+.PHONY : main.c.o
+
+main.i: main.c.i
+
+.PHONY : main.i
+
+# target to preprocess a source file
+main.c.i:
+	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/main.c.i
+.PHONY : main.c.i
+
+main.s: main.c.s
+
+.PHONY : main.s
+
+# target to generate assembly for a file
+main.c.s:
+	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/main.c.s
+.PHONY : main.c.s
 
 msgq.o: msgq.c.o
 
@@ -177,6 +204,60 @@ msgq.c.s:
 	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/msgq.c.s
 .PHONY : msgq.c.s
 
+socket.o: socket.c.o
+
+.PHONY : socket.o
+
+# target to build an object file
+socket.c.o:
+	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/socket.c.o
+.PHONY : socket.c.o
+
+socket.i: socket.c.i
+
+.PHONY : socket.i
+
+# target to preprocess a source file
+socket.c.i:
+	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/socket.c.i
+.PHONY : socket.c.i
+
+socket.s: socket.c.s
+
+.PHONY : socket.s
+
+# target to generate assembly for a file
+socket.c.s:
+	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/socket.c.s
+.PHONY : socket.c.s
+
+sync.o: sync.c.o
+
+.PHONY : sync.o
+
+# target to build an object file
+sync.c.o:
+	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/sync.c.o
+.PHONY : sync.c.o
+
+sync.i: sync.c.i
+
+.PHONY : sync.i
+
+# target to preprocess a source file
+sync.c.i:
+	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/sync.c.i
+.PHONY : sync.c.i
+
+sync.s: sync.c.s
+
+.PHONY : sync.s
+
+# target to generate assembly for a file
+sync.c.s:
+	$(MAKE) -f CMakeFiles/times.dir/build.make CMakeFiles/times.dir/sync.c.s
+.PHONY : sync.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -186,12 +267,21 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... times"
-	@echo "... command.o"
-	@echo "... command.i"
-	@echo "... command.s"
+	@echo "... config.o"
+	@echo "... config.i"
+	@echo "... config.s"
+	@echo "... main.o"
+	@echo "... main.i"
+	@echo "... main.s"
 	@echo "... msgq.o"
 	@echo "... msgq.i"
 	@echo "... msgq.s"
+	@echo "... socket.o"
+	@echo "... socket.i"
+	@echo "... socket.s"
+	@echo "... sync.o"
+	@echo "... sync.i"
+	@echo "... sync.s"
 .PHONY : help
 
 
